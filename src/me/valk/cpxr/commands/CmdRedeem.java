@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.valk.cpxr.CratesPlusXPRedeem;
 import me.valk.cpxr.utils.TextModule;
+import plus.crates.Crate;
 import plus.crates.CratesPlus;
 import plus.crates.Handlers.CrateHandler;
 
@@ -27,10 +28,11 @@ public class CmdRedeem implements CommandExecutor {
 				return true;
 			}
 			
-			int amount = Integer.parseInt(args[0]);
-			
-			if (Double.isNaN(amount)) {
-				sender.sendMessage(TextModule.color("&cPlease specify a valid number!"));
+			int amount = 0;
+			try {
+				amount = Integer.parseInt(args[0]);
+			} catch (NumberFormatException e) {
+				sender.sendMessage(TextModule.color("&cPlease specify a valid number! Error: " + e));
 				return true;
 			}
 			
@@ -52,6 +54,12 @@ public class CmdRedeem implements CommandExecutor {
 			
 			if (p.getLevel() < REQUIRED_XP_LEVELS) {
 				sender.sendMessage(TextModule.color("&cYou need at least " + REQUIRED_XP_LEVELS + " levels of xp to do that!"));
+				return true;
+			}
+			
+			Crate crate = (Crate) JavaPlugin.getPlugin(CratesPlus.class).getConfigHandler().getCrates().get(mainConfig.getString("keys.crate_type").toLowerCase());
+			if (crate == null) {
+				sender.sendMessage(TextModule.color("&cThe crate type '" + mainConfig.getString("keys.crate_type").toLowerCase() + "' does not exist! Please create a crate of this type or change the type entirely!"));
 				return true;
 			}
 			
