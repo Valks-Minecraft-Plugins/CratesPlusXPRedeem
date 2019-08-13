@@ -1,0 +1,9 @@
+name: CratesPlusXPRedeem
+main: me.valk.cpxr.CratesPlusXPRedeem
+author: valkyrienyanko
+version: 1.0
+api-version: 1.14
+commands:
+   cratesplusredeem:
+     description: For all crate redeem related commands.
+     aliases: [cpr, cr]
